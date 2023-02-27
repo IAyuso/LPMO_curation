@@ -4,7 +4,7 @@ set -o errexit
 #let script exit if undeclared variable is used
 set -o nounset
 
-echo 'Introduce the family of interest in the format AA10 to select all proteins in a family or AA10|CBM to select sequences with CBMs only'
+echo 'Introduce the name of the family of interest in (AA10, GH18, etc.)'
 	read family
 
 echo 'Introduce the name of the fasta file database'
