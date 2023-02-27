@@ -30,19 +30,17 @@ select yn in "Yes" "No"; do
 	case $yn in
 		Yes ) 
 		#generate the headers for all the datasets
-		grep -F '|'$family $database > $family'_headers_all';
-		sed -e 's/>//g' $family'_headers_all' > $family'_headers_all2';
-		grep 'CBM' $family'_headers_all2' > $family'_headers_wCBM';
-		grep -v 'CBM' $family'_headers_all2' > $family'_headers_single_domain'
-		#sed 's#\(.*\)#/\1/,+1d#' $family'_headers_wCBM'> commands.seq;
-		#sed -f commands.seq $family'_headers_all2' > $family'_headers_single_domain';
+			grep -F '|'$family $database > $family'_headers_all';
+			sed -e 's/>//g' $family'_headers_all' > $family'_headers_all2';
+			grep 'CBM' $family'_headers_all2' > $family'_headers_wCBM';
+			grep -v 'CBM' $family'_headers_all2' > $family'_headers_single_domain'
 		
 		#fetch the sequences, curate them, and get single domain or CBM-containing sequences
-		faSomeRecords $database $family'_headers_all2' $family'_sequences_all';
-		seqkit seq -m $seqkit_min -M $seqkit_max $family'_sequences_all' > $family'_lenght_filter';
-		cd-hit -i $family'_lenght_filter' -o $family'_lenght_filter_cdhit'.fas -c $cd_hit_cutoff;
-		faSomeRecords $family'_lenght_filter_cdhit'.fas $family'_headers_wCBM' $family'sequences_wCBM';
-		faSomeRecords $family'_lenght_filter_cdhit'.fas $family'_headers_single_domain' $family'sequences_single_domain';
+			faSomeRecords $database $family'_headers_all2' $family'_sequences_all';
+			seqkit seq -m $seqkit_min -M $seqkit_max $family'_sequences_all' > $family'_lenght_filter';
+			cd-hit -i $family'_lenght_filter' -o $family'_lenght_filter_cdhit'.fas -c $cd_hit_cutoff;
+			faSomeRecords $family'_lenght_filter_cdhit'.fas $family'_headers_wCBM' $family'sequences_wCBM';
+			faSomeRecords $family'_lenght_filter_cdhit'.fas $family'_headers_single_domain' $family'sequences_single_domain';
 		
 		#move files to a data folder to create clean output
 		if [ -d "./data_generated" ]
